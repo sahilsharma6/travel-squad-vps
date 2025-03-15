@@ -131,6 +131,18 @@ const Navbar = () => {
                         </Link>
                       </>
                     )}
+                    {["user"].includes(user?.role) && (
+                      <>
+                        <hr className="my-1" />
+                        <Link to="/user">
+                          <button
+                            className="block w-full text-left px-4 py-2 text-blue-600 hover:bg-gray-100 transition duration-150"
+                          >
+                            <i className="bx bxs-cog mr-2"></i>DashBoard
+                          </button>
+                        </Link>
+                      </>
+                    )}
 
 
                     <hr className="my-1" />

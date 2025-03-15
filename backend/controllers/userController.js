@@ -98,9 +98,10 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
-
+    console.log(user)
     if (user) {
-      user.name = req.body.name || user.name;
+      user.firstName = req.body.firstName || user.firstName;
+      user.lastName = req.body.lastName || user.lastName;
       user.email = req.body.email || user.email;
   
       if (req.body.password) {
@@ -111,7 +112,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   
       res.json({
         _id: updatedUser._id,
-        name: updatedUser.name,
+        
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
       });

@@ -1,4 +1,5 @@
 import Booking from "../models/booking.js";
+import CabBooking from "../models/cabBookingModel.js";
 import Hotel from "../models/hotelModel.js";
 
 export async function Create(req, res) {
@@ -86,24 +87,30 @@ export async function GetAllBookingUser(req, res) {
         res.status(500).json({ success: false, message: "Internal Server Error" })
     }
 }
-export async function GetAllBookingByHotelId(req, res) {
+export async function GetAllBookingByuserId(req, res) {
     try {
-        const id = req.params.id; // assuming hotelId is passed as a URL parameter
+        const id = req.params.id; // Extract user ID from request parameters
 
-        // Fetch bookings that match the hotelId
-        const getBooking = await Booking.find({ hotel: id });
+        // Fetch both hotel and cab bookings
+        const hotelBookings = await Booking.find({ user: id });
+        const cabBookings = await CabBooking.find({ user: id });
 
         // If no bookings are found, return a specific message
-        if (getBooking.length === 0) {
-            return res.status(404).json({ success: false, message: "No bookings found for this hotel" });
+        if (hotelBookings.length === 0 && cabBookings.length === 0) {
+            return res.status(404).json({ success: false, message: "No bookings found for this user" });
         }
 
-        res.json(getBooking);
+        res.json({
+            success: true,
+            hotelBookings,
+            cabBookings
+        });
     } catch (error) {
-        console.error(error);  // Log the error for debugging
+        console.error(error); // Log the error for debugging
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 }
+
 
 export async function GetAllBooking(req, res) {
     try {
@@ -114,15 +121,15 @@ export async function GetAllBooking(req, res) {
     }
 }
 
-// export default async function GetAllBookingByHotelId(req,res){
-//     try {
-//         const {id}=req.params
-//         const bookings=await Booking.find({hotel:id})
-//         if(bookings.length>0){
-//             res.status(200).json(bookings)
-//         }
-//         else res.status(400).json({ success: false, message: "Not Found" })
-//     } catch (error) {
-//         res.status(500).json({ success: false, message: "Internal Server Error" })
-//     }
-// }
+export  async function GetAllBookingByHotelId(req,res){
+    try {
+        const {id}=req.params
+        const bookings=await Booking.find({hotel:id})
+        if(bookings.length>0){
+            res.status(200).json(bookings)
+        }
+        else res.status(400).json({ success: false, message: "Not Found" })
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Internal Server Error" })
+    }
+}

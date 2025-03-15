@@ -21,6 +21,7 @@ import CabPage from "./components/Cab/CabPage"
 import ReviewBooking from "./components/Cab/ReviewBooking"
 import Login from "./components/Login/Login"
 import AdminRoutes from "./components/Adminroutes"
+import UserDashboard from "./components/User/Userdashboard"
 
 function App() {
   // Create the public routes
@@ -169,6 +170,16 @@ function App() {
         <>
           <Navbar />
           <ReviewBooking />
+          <Footer />
+        </>
+      ),
+    },
+    {
+      path: "/user",
+      element: (
+        <>
+          <Navbar />
+          <UserDashboard/>
           <Footer />
         </>
       ),
